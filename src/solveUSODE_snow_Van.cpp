@@ -26,8 +26,7 @@ const double tau0 = 6467.75; // median of sample tau_s
 const double mu = 1;
 const double k = 388440;
 const double T0 = 4500 / k;
-//const int n_per_theta = 100000;
-const int n_per_theta = 1000;
+const int n_per_theta = 100000;
 const eps_tolerance<double> tol(16);
 const double t_start = 0;
 const double t_end = 438300; // hours in 50 years

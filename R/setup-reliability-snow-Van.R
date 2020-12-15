@@ -1,8 +1,7 @@
 library(deSolve)
 library(tidyverse)
 # Number of stochastic load profiles to generate
-# nrep <- 100000
-nrep <- 1000
+nrep <- 100000
 # Load parameters
 # gamma is dead-to-live load ratio 
 gamma = 0.25

@@ -15,7 +15,6 @@ load("rel_loads_wind.rda")
 
 
 nrep <- length(D_d)
-nrep <- 100
 # Pick a thinned subset of thetas to use for reliability calculations
 #theta_thin <- theta[seq(nrow(theta)/2+1,nrow(theta), length.out = 500),]
 theta_thin <- theta
