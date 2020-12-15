@@ -36,7 +36,7 @@ G_cov <- 0.150
 G_mean <- (1+3.050*G_cov)/(1+2.592*G_cov)
 A <- 1.282/(G_cov*G_mean)
 B <- G_mean - (0.577/A) 
-NS <- 12
+NS <- 1
 
 
 
@@ -64,6 +64,8 @@ wind_generating <- function(N,NS,A,B){
   Wind_velocity <- (B + 1.0 / A * (-log(-NS * log(1.0 - p_e + p_e * p))))
   g_s[id_snow] <- Wind_velocity^2*Transfactor(length(p),0.68,0.22)/
     ((Wind_velocity_50)^2*0.68)
+#  g_s[id_snow] <- Wind_velocity*Transfactor(length(p),0.68,0.22)/
+#    ((Wind_velocity_50))
   g_s
 }
 
@@ -87,7 +89,7 @@ T_p <- list()
 load_p <- list()
 # D_e is the snow/wind load
 D_e <- list()
-N <- 100
+N <- 50
 
 for (i in 1:nrep) {
   # D_d is the standardized dead load assumed to follow N(1.05,0.1)
@@ -97,9 +99,9 @@ for (i in 1:nrep) {
   # the size of the load in each period
   
   # The occurrence between wind loads is 29 days exp(1/0.07945)
-  T_e[[i]] <- rexp(N, 1/0.07945)
+  T_e[[i]] <- rexp(N, 1/1)
   # The duration time of each wind load segment is 1 day exp(1/0.00274)
-  T_p[[i]] <- rexp(N, 1/0.00274)
+  T_p[[i]] <- rexp(N, 1/0.01918)
   load_p[[i]] <- wind_generating(N,NS,A,B)
   
   D_e[[i]] <- stepfun(cumsum(zip(T_e[[i]], T_p[[i]])), zip(rep(0, N+1), load_p[[i]]))

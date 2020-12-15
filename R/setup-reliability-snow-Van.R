@@ -90,7 +90,7 @@ T_p <- list()
 load_p <- list()
 # D_e is the extraordinary live load
 D_e <- list()
-N <- 100
+N <- 50
 
 for (i in 1:nrep) {
   # D_d is the standardized dead load assumed to follow N(1.05,0.1)
@@ -111,5 +111,4 @@ for (i in 1:nrep) {
   
 }
 save(D_d, D_e, gamma, R_0, alpha_d, alpha_l, file="rel_loads_snow_Van.rda")
-
 

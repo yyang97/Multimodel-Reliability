@@ -53,9 +53,6 @@ map<string, double> load_profile_par{
 	{"NS", 10},
 	
 	// ground snow load parameters
-	// vancouver
-//	{"A", 0.0977}, 
-//	{"B", 5.1023},
 	// Quebec
 	{"A", 0.3222}, 
 	{"B", 17.0689},	
@@ -96,7 +93,7 @@ class load_profile {
 	double load_p_shape, load_p_scale, load_s_shape, load_s_scale, phi, R0, alpha_d, alpha_l,
 		mean_Ts, mean_Te, mean_Tp, D_d, load_d_mean, load_d_sd, gamma, A, B,
 		r_flat_mean,r_flat_COV;
-	int N = 250;
+	int N = 550;
 	int NS = 10;
 	
 	// probability of snow in a segment.

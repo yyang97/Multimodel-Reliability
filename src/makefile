@@ -8,7 +8,7 @@ OBJ = model.o utils.o brent.o
 LIBS = -llapack
 BOOST = -Iboost
 
-all: ../DOLmod_MCMC ../CanADM ../USADM ../CanADM_snow_Van ../CanADM_snow_Ottawa ../CanADM_wind ../CanADM_snow_Queb
+all: ../DOLmod_MCMC ../CanADM ../USADM ../CanADM_snow_Van ../CanADM_wind ../CanADM_snow_Queb ../USADM_snow_Van ../USADM_snow_Queb ../USADM_wind
 
 
 %.o: %.cpp %.hpp
@@ -26,8 +26,6 @@ mcmc_abc.o: mcmc_abc.cpp
 ../CanADM_snow_Van: solveCanODE_snow_Van.cpp
 	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
 
-../CanADM_snow_Ottawa: solveCanODE_snow_Ottawa.cpp
-	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
 ../CanADM_snow_Queb: solveCanODE_snow_Queb.cpp
 	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
 
@@ -35,6 +33,13 @@ mcmc_abc.o: mcmc_abc.cpp
 	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
 
 ../USADM: solveUSODE.cpp
+	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
+
+../USADM_snow_Van: solveUSODE_snow_Van.cpp
+	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
+../USADM_snow_Queb: solveUSODE_snow_Queb.cpp
+	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
+../USADM_wind: solveUSODE_wind.cpp
 	$(CC) -g $(OPT) -o $@ $< $(LIBS) $(BOOST)
 
 clean:

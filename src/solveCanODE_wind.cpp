@@ -45,9 +45,11 @@ map<string, double> load_profile_par{
 	{"load_d_mean", 1.05},
 	{"load_d_sd", 0.1},
 	{"gamma", 0.25},
-	{"mean_Ts", 0.07945},
-//	{"mean_Te", 0.5833},
-	{"mean_Tp", 0.00274},
+	// 29 days 0.07945
+	{"mean_Ts", 1},
+	// 1 day 0.00274
+	// 14 days 0.03835
+	{"mean_Tp", 0.01918},
 	{"N", 100},
 	// Here are the parameters for wind
 	{"NS", 12},
@@ -91,8 +93,8 @@ class load_profile {
 	double load_p_shape, load_p_scale, load_s_shape, load_s_scale, phi, R0, alpha_d, alpha_l,
 		mean_Ts, mean_Te, mean_Tp, D_d, load_d_mean, load_d_sd, gamma, G_COV,
 		r_flat_mean,r_flat_COV;
-	int N = 250;
-	int NS = 12;
+	int N = 100;
+	int NS = 1;
 	double G_mean = (1 + 3.050*G_COV)/(1 + 2.592*G_COV);
 	double A = 1.282/(G_COV*G_mean);
 	double B = G_mean - (0.577/A);
@@ -176,12 +178,12 @@ public:
   				    // there is wind in this segment
   				    double p = runif(generator);
   				    double r = log_norm_r(generator);
-  				    double r_50 = log_norm_r(generator);
               // mean(r) = 0.68
               // quantile(r, 49/50) = 1.0374
   				    double wind_velocity = B + 1.0 / A * (-log(-NS * log(1.0 - p_e + p_e * p)));
   					  load_s[i] = (pow(wind_velocity,2)*r)/
-  					    (pow(wind_velocity_50,2)*0.68);			    
+  					    (pow(wind_velocity_50,2)*0.68);		
+//                load_s[i] = (wind_velocity/wind_velocity_50)*r;
   				  } 
 				  }
 			}
