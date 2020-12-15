@@ -27,7 +27,7 @@ We set up three load profiles: snow load in Vancouver, snow load in Quebec City 
 Reliability analysis is performed by the compiled C++ programs 'USADM_snow_Van', 'USADM_snow_Queb', 'USADM_wind'
 
 
-### snow load in Vancouver
+### Snow load in Vancouver
 
 Example:
 ```
@@ -56,7 +56,7 @@ There are some additional parameters in USADM (solveUSODE_snow_Van.cpp, solveUSO
 - dt:        time-step used for numerical integration.  Default is 100 hours.
 
 
-### snow load in Quebec City
+### Snow load in Quebec City
 
 We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar.
 
@@ -69,7 +69,7 @@ Using the values of theta listed in "US_theta.csv", this program will estimate t
 	number of replications with the snow load in Quebec City using _phi=1.2_.
 
 
-### wind load
+### Wind load
 
 
 Example:
@@ -88,7 +88,7 @@ Using the values of theta listed in "US_theta.csv", this program will estimate t
 Reliability analysis is performed by the compiled C++ programs 'CanADM_snow_Van', 'CanADM_snow_Queb', 'CanADM_wind'
 
 
-### snow load in Vancouver
+### Snow load in Vancouver
 
 Example:
 ```
@@ -117,7 +117,7 @@ There are some additional parameters in USADM (solveCanODE_snow_Van.cpp, solveCa
 - dt:        time-step used for numerical integration.  Default is 100 hours.
 
 
-### snow load in Quebec City
+### Snow load in Quebec City
 
 We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar.
 
@@ -130,7 +130,7 @@ Using the values of theta listed in "Can_theta.csv", this program will estimate 
 	number of replications with the snow load in Quebec City using _phi=1.2_.
 
 
-### wind load
+### Wind load
 
 
 Example:
@@ -146,7 +146,7 @@ Using the values of theta listed in "Can_theta.csv", this program will estimate 
 
 ## Gamma process model 
 
-### snow load in Vancouver
+### Snow load in Vancouver
 
 Begin by generating snow load in Vancouver. You need to install R package 'desolve', 'tidyverse'. There might be some warnings or even errors by library(tidyverse). But you can ignore them. 
 
@@ -166,7 +166,7 @@ The default model file is **R/gamma-2breaks.R**, and should match the model used
 
 
 
-### snow load in Quebec City
+### Snow load in Quebec City
 
 We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar. 
 
@@ -178,7 +178,7 @@ source("R/setup-reliability-snow-Queb.R")
 source("R/calc-reliability-GP-snowQueb.R")
 ```
 
-### wind load
+### Wind load
 
 ```
 source("R/setup-reliability-wind.R")
