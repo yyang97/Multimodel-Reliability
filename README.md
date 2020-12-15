@@ -7,7 +7,7 @@ This repository contains programs to fit the US, Canadian, and gamma process mod
 
 ### Download and compile the C++ programs for Linux:
 ```
-git clone https://github.com/wongswk/damage-models.git
+git clone https://github.com/yyang97/Multimodel-Reliability.git
 cd damage-models/src
 make all
 ```
