@@ -1,49 +1,42 @@
-# damage-models
-Calibrating wood products for load duration and rate using US, Canadian, and gamma process models
+# Reliability analysis
+Reliabibility analysis for snow load and wind load by using US, Canadian, and gamma process models
 
 ## Overview
 
-This repository contains programs to fit the US, Canadian, and gamma process models and perform reliability analysis.  Code is composed of R scripts and C++ source files.
+This repository contains programs to perform reliability analysis for snow load and wind load based on US, Canadian, and gamma process models.  Code is composed of R scripts and C++ source files.
 
 ### Download and compile the C++ programs for Linux:
 ```
 git clone https://github.com/yyang97/Multimodel-Reliability.git
-cd damage-models/src
+cd Multimodel-Reliability/src
 make all
+cd ..
 ```
-### Example data
 
-Two example datasets are included in "data/" for usage demonstrations in each model below.
+# MCMC draws
 
-1. ramp_388440.txt:  Ramp load with rate k = 388440 psi/hour
+The MCMC draws for US model, Canadian mode and Gamma process model are provdied in US_theta.csv, Can_theta.csv and GP-theta.RData, respectively. All contain 500 parameters draws.
 
-2. RCR_4500_1Y.txt:  Ramp-constant-ramp load, i.e., constant load 4500psi for duration 1 year, followed by a ramp load test to failure of survivors at the standard rate
+# Three load profiles
 
-## US (Gerhard's) damage model
+We set up three load profiles: snow load in Vancouver, snow load in Quebec City and wind load (in Halifax). 
 
-### Fitting the model
 
-First, edit 'R/loadData.R' as needed to include the datasets and settings for the experiment.  The included file is set up to handle the example datasets above, and contains instructions for how to make modifications.
+# US model 
 
-In R, set the working directory to the base folder of this repository (damage-models)
+Reliability analysis is performed by the compiled C++ programs 'USADM_snow_Van', 'USADM_snow_Queb', 'USADM_wind'
+
+
+## snow load in Vancouver
 
 Example:
 ```
-source("R/fit_US.R")
-```
-This fits the US model and writes out the parameter estimates to 'US_theta.csv'.  The median short-term strength can be set in Line 3 of 'R/fit_US.R'.
-
-### Reliability analysis
-
-Reliability analysis is performed by the compiled C++ program 'USADM'
-
-Example:
-```
-./USADM US_theta.csv 1.2  
+./USADM_snow_Van US_theta.csv 1.2  
 
 ```
 Using the values of theta listed in "US_theta.csv", this program will estimate the probability of failure after 50 years based on a large
-	number of replications with the stochastic load profile using _phi=1.2_.
+	number of replications with the snow load in Vancouver profile using _phi=1.2_.
+	
 
 General usage:
 
@@ -54,103 +47,148 @@ USADM **theta_file_name** **phi**
 	probability of failure P_f. T_f and P_f for each theta will be written into files with suffix “csv”.
 - Output files: probability of failure with and without DOL effect.
 
-There are some additional parameters in USADM (solveUSODE.cpp) that can be modified:
+
+
+There are some additional parameters in USADM (solveUSODE_snow_Van.cpp, solveUSODE_snow_Queb.cpp, solveUSODE_wind.cpp) that can be modified:
 
 - n_per_theta:    number of load profile replications to use for estimation of P_f.  Default is 100000.
 - t_end:        reference timeframe (in hours).  Default is 50 years.
 - dt:        time-step used for numerical integration.  Default is 100 hours.
-- The current load profile is the residential load profile. Other load profiles can be added by creating a new class.
 
 
-## Canadian (Foschi's) damage model
+## snow load in Quebec City
 
-### Fitting the model
-
-Model fitting via ABC-MCMC is performed by the compiled C++ program 'DOLmod_MCMC'
+We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar.
 
 Example:
 ```
-./DOLmod_MCMC 50 1000 100 2.0 data/ramp_388440.txt data/RCR_4500_1Y.txt
+./USADM_snow_Queb US_theta.csv 1.2  
+
 ```
-This generates 50 MCMC samples (thinned by every 100 iterations), after a burn-in of 1000 iterations, using an ABC delta tolerance of 2.0.  The data fitted are the files data/ramp_388440.txt and data/RCR_4500_1Y.txt
-
-General usage:
-
-DOLmod_MCMC **m** **burnin** **thining** **delta** **data**
-
-- The **data** can consist of multiple file names, each named following the format in the example datasets
-- Output files: theta.csv containing _m_ theta vectors and accept.csv containing the acceptance rate.
+Using the values of theta listed in "US_theta.csv", this program will estimate the probability of failure after 50 years based on a large
+	number of replications with the snow load in Quebec City using _phi=1.2_.
 
 
-### Reliability analysis
+## wind load
 
-Reliability analysis is performed by the compiled C++ program 'CanADM'
 
 Example:
 ```
-./CanADM theta_2.csv 1.2  
+./USADM_wind US_theta.csv 1.2  
 
 ```
-For each sample of theta in "theta_2.csv", this program will estimate the probability of failure after 50 years based on a large
-	number of replications with the stochastic load profile using _phi=1.2_.
+Using the values of theta listed in "US_theta.csv", this program will estimate the probability of failure after 50 years based on a large
+	number of replications with the wind load using _phi=1.2_.
+
+
+
+
+# Canadian model 
+
+Reliability analysis is performed by the compiled C++ programs 'CanADM_snow_Van', 'CanADM_snow_Queb', 'CanADM_wind'
+
+
+## snow load in Vancouver
+
+Example:
+```
+./CanADM_snow_Van Can_theta.csv 1.2  
+
+```
+Using the values of theta listed in "Can_theta.csv", this program will estimate the probability of failure after 50 years based on a large
+	number of replications with the snow load in Vancouver profile using _phi=1.2_.
+	
 
 General usage:
 
 CanADM **theta_file_name** **phi** 
 
-- The parameter vectors to use for reliability analysis are supplied via **theta_file_name**, usually the output of 'DOLmod_MCMC' program above.
-	The thetas will then be used to solve the Canadian ADM for time-to-failure T_f and
+- The parameter vectors to use for reliability analysis are supplied via **theta_file_name**, usually the output of the parameter estimation done in model fitting above.
+	The thetas will then be used to solve the Can ADM for time-to-failure T_f and
 	probability of failure P_f. T_f and P_f for each theta will be written into files with suffix “csv”.
 - Output files: probability of failure with and without DOL effect.
 
-There are some additional parameters in CanADM (solveCanODE.cpp) that can be modified:
+
+
+There are some additional parameters in USADM (solveCanODE_snow_Van.cpp, solveCanODE_snow_Queb.cpp, solveCanODE_wind.cpp) that can be modified:
 
 - n_per_theta:    number of load profile replications to use for estimation of P_f.  Default is 100000.
 - t_end:        reference timeframe (in hours).  Default is 50 years.
 - dt:        time-step used for numerical integration.  Default is 100 hours.
-- The current load profile is the residential load profile. Other load profiles can be added by creating a new class.
 
 
-## Gamma process model
+## snow load in Quebec City
 
-First, edit 'R/loadData.R' as needed to include the datasets and settings for the experiment.  The included file is set up to handle the example datasets above, and contains instructions for how to make modifications.  'tau_max' should be set to the maximum strength of the lumber population.
-
-In R, set the working directory to the base folder of this repository (damage-models)
-
-### Fitting the model
+We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar.
 
 Example:
 ```
-source("R/fit_GP.R")
+./CanADM_snow_Queb US_theta.csv 1.2  
+
 ```
-This fits the gamma process model and writes out the sampled parameters to 'fit-gp/1.rda'.
+Using the values of theta listed in "Can_theta.csv", this program will estimate the probability of failure after 50 years based on a large
+	number of replications with the snow load in Quebec City using _phi=1.2_.
 
-The main settings in the R script (R/fit_GP.R) that can be modified:
 
-- The gamma process model file, default is **R/gamma-2breaks.R**, which allows for two breakpoints in the power law.  Model files for 0, 1, 2, and 3 breakpoints are included in the package (R/gamma-0breaks.R, R/gamma-1breaks.R, R/gamma-2breaks.R, R/gamma-3breaks.R)
-- n.iter:  number of MCMC iterations to run
-- nprocs: number of parallel threads (CPU cores) to use
-- Other settings for parallel tempering that can be modified are described within the R script
+## wind load
 
-### Reliability analysis
-
-Begin by generating a large number of stochastic load profiles.
 
 Example:
 ```
-source("R/setup-reliability.R")
-```
-The number load profile replications to generate (default: 100000), and parameters associated with the load profiles can be modified within that R script.
+./CanADM_wind US_theta.csv 1.2  
 
-Now calculate probability of failure for each profile, using parameters obtained from model fitting.
-
-Example:
 ```
-source("R/calc-reliability-GP.R")
-```
-The results are saved as a matrix of failure probabilities **failmat**.
+Using the values of theta listed in "Can_theta.csv", this program will estimate the probability of failure after 50 years based on a large
+	number of replications with the wind load using _phi=1.2_.
 
+
+
+
+# Gamma process model 
+
+## snow load in Vancouver
+
+Begin by generating snow load in Vancouver. You need to install R package 'desolve', 'tidyverse'. There might be some warnings or even errors by library(tidyverse). But you can ignore them. 
+
+```
+R
+source("R/setup-reliability-snow-Van.R")
+```
+
+The number load profile replications to generate (default: 100000). The result is saved as 'rel_loads_snow_Van.rda'.
+
+Next step is to calculate the reliability estimate. 
+
+```
+source("R/calc-reliability-GP-snowVan.R")
+```
 The default model file is **R/gamma-2breaks.R**, and should match the model used for fitting.  The performance factor **phi** and reference time frame (default 50 years) can be set within the R script.
+
+
+
+## snow load in Quebec City
+
+We only provide one example for snow load in Quebec City and wind load as all the other settings are similiar. 
+
+```
+source("R/setup-reliability-snow-Queb.R")
+```
+
+```
+source("R/calc-reliability-GP-snowQueb.R")
+```
+
+## wind load
+
+```
+source("R/setup-reliability-wind.R")
+```
+
+```
+source("R/calc-reliability-GP-wind.R")
+```
+
+
 
 ## References
 
@@ -159,6 +197,4 @@ Some code in this repository is adapted from the methods described in these pape
 Samuel WK Wong and James V Zidek (2019). The duration of load effect in lumber as stochastic degradation. IEEE Transactions on Reliability, 68(2), 410-419.
 
 Chun-Hao Yang, James V Zidek, Samuel WK Wong (2019). Bayesian analysis of accumulated damage models in lumber reliability. Technometrics, 61(2), 233-245.
-
-Questions?  Contact: samuel.wong@uwaterloo.ca
 
