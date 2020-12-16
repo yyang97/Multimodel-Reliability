@@ -123,7 +123,7 @@ We only provide one example for snow load in Quebec City and wind load as all th
 
 Example:
 ```
-./CanADM_snow_Queb US_theta.csv 1.2  
+./CanADM_snow_Queb Can_theta.csv 1.2  
 
 ```
 Using the values of theta listed in "Can_theta.csv", this program will estimate the probability of failure after 50 years based on a large
@@ -135,7 +135,7 @@ Using the values of theta listed in "Can_theta.csv", this program will estimate 
 
 Example:
 ```
-./CanADM_wind US_theta.csv 1.2  
+./CanADM_wind Can_theta.csv 1.2  
 
 ```
 Using the values of theta listed in "Can_theta.csv", this program will estimate the probability of failure after 50 years based on a large
