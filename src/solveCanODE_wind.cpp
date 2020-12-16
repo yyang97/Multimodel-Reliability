@@ -50,8 +50,6 @@ map<string, double> load_profile_par{
 	// 14 days 0.03835
 	{"mean_Tp", 0.01918},
 	{"N", 100},
-	// Here are the parameters for wind
-	{"NS", 12},
 
   // Parameters for Halifax
 	{"G_COV",0.150}, 
@@ -179,10 +177,9 @@ public:
   				    double r = log_norm_r(generator);
               // mean(r) = 0.68
               // quantile(r, 49/50) = 1.0374
+              // quantile(V^2*r,49/50) = 1.59127
   				    double wind_velocity = B + 1.0 / A * (-log(-NS * log(1.0 - p_e + p_e * p)));
-  					  load_s[i] = (pow(wind_velocity,2)*r)/
-  					    (pow(wind_velocity_50,2)*0.68);		
-//                load_s[i] = (wind_velocity/wind_velocity_50)*r;
+  					  load_s[i] = (pow(wind_velocity,2)*r)/1.59127;		
   				  } 
 				  }
 			}
@@ -213,15 +210,11 @@ public:
 	
 	void write(ofstream& file){
 		if(file.is_open()){
-//			file << "T_s, load_s, T_e, load_e" << endl;
   			file << "T_s, load_s" << endl;
-
 			for(int i = 0; i < T_s.size(); ++i){
-//				file << T_s[i] << "," << load_s[i] << "," << T_e[i] << "," << load_e[i] << endl;
       file << T_s[i] << "," << load_s[i] << endl;
 			  
 			}	
-//			file << " ," << load_s[T_s.size()] << ", ," << load_e[T_s.size()] << endl;
       file << " ," << load_s[T_s.size()] << endl;
 			
 		}

@@ -61,10 +61,7 @@ wind_generating <- function(N,NS,A,B){
   p <- runif(length(id_snow))
   # Final generation
   Wind_velocity <- (B + 1.0 / A * (-log(-NS * log(1.0 - p_e + p_e * p))))
-  g_s[id_snow] <- Wind_velocity^2*Transfactor(length(p),0.68,0.22)/
-    ((Wind_velocity_50)^2*0.68)
-#  g_s[id_snow] <- Wind_velocity*Transfactor(length(p),0.68,0.22)/
-#    ((Wind_velocity_50))
+  g_s[id_snow] <- Wind_velocity^2*Transfactor(length(p),0.68,0.22)/1.59127
   g_s
 }
 
@@ -97,9 +94,9 @@ for (i in 1:nrep) {
   
   # the size of the load in each period
   
-  # The occurrence between wind loads is 29 days exp(1/0.07945)
+  # The occurrence between wind loads is 1 yaer exp(1)
   T_e[[i]] <- rexp(N, 1/1)
-  # The duration time of each wind load segment is 1 day exp(1/0.00274)
+  # The duration time of each wind load segment is 1 week exp(1/0.01918)
   T_p[[i]] <- rexp(N, 1/0.01918)
   load_p[[i]] <- wind_generating(N,NS,A,B)
   
