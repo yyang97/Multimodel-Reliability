@@ -160,7 +160,7 @@ public:
     // generate the dead load
     D_d = norm_d(generator);
     // generate the non-winter time
-    T_e[0] = exp_Te(generator);
+    T_e[0] = 0.5833;
     // there is no snow, snow load = 0
     load_e[0] = 0;
     
@@ -169,7 +169,7 @@ public:
         // there  might be snow in this segment as it is winter
         double r_n = runif(generator);
         // generate the time
-        T_e[i] = T_e[i-1] + exp_Tp(generator);				  
+        T_e[i] = T_e[i-1] + 0.03835;				  
         if(r_n > p_e){
           // there is no snow in that segment
           load_e[i] = 0;
@@ -183,7 +183,7 @@ public:
       }
       else{
         // there is no snow
-        T_e[i] = T_e[i-1] + exp_Te(generator);
+        T_e[i] = T_e[i-1] + 0.5833;
         load_e[i] = 0;
       }
     }

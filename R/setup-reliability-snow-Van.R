@@ -99,10 +99,10 @@ for (i in 1:nrep) {
   # the size of the load in each period
   
   # The occurrence between snow loads is 7 months exp(1/0.5833)
-  T_e[[i]] <- rexp(N, 1/0.5833)
+  T_e[[i]] <- rep(0.5833, N)
   # The duration time of each snow load segment is 2 weeks
   T_p[[i]] <- vector(mode = 'list',length = N) %>%
-    lapply(function(x) x = rexp(NS, 1/0.03835))
+    lapply(function(x) x = rep(0.03835, NS))
   load_p[[i]] <- vector(mode = 'list',length = N) %>%
     lapply(function(x) x = snow_generating(10,10,A,B))
 
